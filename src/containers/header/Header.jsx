@@ -1,10 +1,25 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './header.css';
 import people from "../../assets/people.png";
-import ai from "../../assets/ai.png";
+import ai from "../../assets/ai.webp";
 
 
 const Header = () => {
+  const [aiLoaded, setAiLoaded] = useState(false);
+  const [peopleLoaded, setPeopleLoaded] = useState(false);
+  useEffect(() => {
+    const aiImg = new Image();
+    const peopleImg = new Image();
+    aiImg.src = ai;
+    peopleImg.src = people;
+    aiImg.onload = () => {
+      setAiLoaded(true);
+    }
+    peopleImg.onload = () => {
+      setPeopleLoaded(true);
+    }
+  }, [])
+
   return (
     <div className='gpt3__header section__padding' id='home'>
       <div className='gpt3__header-content'>
@@ -17,12 +32,12 @@ const Header = () => {
           <button type='button'>Get Started</button>
         </div>
         <div className='gpt3__header-content__people'>
-          <img src={people} alt='people'/>
+          {peopleLoaded && <img src={people} alt='people'/>}
           <p>1,600 people requested access a visit in last 24 hours</p>
         </div> 
       </div>
       <div className='gpt3__header-image'>
-        <img src={ai} alt='ai'/>
+        {aiLoaded && <img src={ai} alt='ai'/>}
       </div>
     </div>
   )
